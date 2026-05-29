@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /build
 
-# System-level C-libraries required by pytesseract and Pillow
+# System-level C-libraries required by pytesseract, Pillow, and python-docx (lxml backup)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr \
     tesseract-ocr-eng \
@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libjpeg-dev \
     libtiff-dev \
+    libxml2-dev \
+    libxslt-dev \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
@@ -32,13 +34,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     TESSDATA_PREFIX=/usr/share/tesseract-ocr/5/tessdata \
     DELTA_CONTEXT_DB=/data/delta_context.sqlite
 
-# Only runtime OCR libraries — no build tools
+# Only runtime libraries — no build tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     tesseract-ocr \
     tesseract-ocr-eng \
     libpng16-16 \
     libjpeg62-turbo \
     libtiff6 \
+    libxml2 \
+    libxslt1.1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy compiled Python packages from builder
@@ -46,7 +50,7 @@ COPY --from=builder /install /usr/local
 
 WORKDIR /app
 
-# Application source
+# Application source (This automatically pulls in the new Phase 7A parsers)
 COPY src/ ./src/
 
 # Persistent data volume — SQLite DB lives here

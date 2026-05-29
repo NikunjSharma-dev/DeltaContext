@@ -9,8 +9,11 @@ numpy==1.26.4
 Pillow==10.3.0
 pytesseract==0.3.10
 
-# ── PDF Parsing (Phase 3 extension) ─────────────────────────────────────────
-pypdf==4.2.0
+# ── Document, Web, & AST Parsing (Phase 3 & 7A) ─────────────────────────────
+pypdf==4.2.0                # PDF parsing
+python-docx>=1.1.0          # DOCX parsing
+beautifulsoup4>=4.12.3      # HTML parsing
+libcst>=1.4.0               # Python AST parsing
 
 # ── Utilities ────────────────────────────────────────────────────────────────
 python-dotenv==1.0.1

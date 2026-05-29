@@ -9,11 +9,10 @@
 DeltaContext watches a directory of files — CSVs, images, PDFs, Markdown — and maintains a SQLite FTS5 (Full-Text Search) index of their content. A Model Context Protocol (MCP) server exposes that index to any LLM agent as three clean tools, so the agent can search only the relevant snippets instead of loading entire files into the context window.
 
 ```
-[ Files on Disk ] → [ Delta Engine ] → [ SQLite FTS5 DB ] → [ MCP Server ] → [ LLM Agent ]
-   CSV / Image             ↑                                       ↑
-   PDF / Text         watches for changes                   ctx_search
-                      hashes content                        ctx_pandas_query
-                      parses to text                        ctx_file_list
+[ Local Files ] ───→ [ Delta Engine ] ───→ [ SQLite FTS5 DB ] ───→ [ MCP Server ] ───→ [ LLM Agent ]
+ CSV, PDF, HTML        Watches for edits                              ctx_search
+ DOCX, Python          Hashes content (xxHash)                        ctx_pandas_query
+ JPG, PNG              Parses & extracts text                         ctx_file_list
 ```
 
 ## Features
@@ -22,7 +21,7 @@ DeltaContext watches a directory of files — CSVs, images, PDFs, Markdown — a
 |---------|--------|
 | **Delta detection** | xxHash content fingerprinting — only re-indexes changed files |
 | **Real-time watching** | watchdog background thread; new files indexed within seconds |
-| **Multimodal parsing** | CSV rows → text, Tesseract OCR for images, pypdf for PDFs, Markdown |
+| **Multimodal parsing** | CSV rows → text, Tesseract OCR for images, pypdf for PDFs, python-docx for Word documents, bs4 for HTML, libcst for Python AST, and Markdown. |
 | **FTS5 search** | BM25-ranked full-text search with Porter stemming |
 | **Sandboxed Pandas** | LLM can run `df.describe()` / groupby without file-system access |
 | **Session memory** | Every tool call + file mutation is logged; survives context truncation |
@@ -42,11 +41,14 @@ delta_context/
 │   │   ├── delta.py           # xxHash + Pandas diff logic
 │   │   ├── indexer.py         # Orchestrator + watchdog watcher
 │   │   └── parsers/
-│   │       ├── base.py        # Abstract BaseParser + chunking utilities
-│   │       ├── csv.py         # Pandas CSV parser (summary + schema modes)
-│   │       ├── image.py       # Tesseract OCR parser
-│   │       ├── text.py        # Markdown / TXT parser
-│   │       └── pdf.py         # pypdf page-by-page parser
+│   │       ├── base.py        # Abstract BaseParser & chunking utilities
+│   │       ├── csv.py         # Pandas dataframe parser
+│   │       ├── docx_parser.py # Microsoft Word text extraction
+│   │       ├── html_parser.py # bs4 DOM parsing (strips scripts/styles)
+│   │       ├── image.py       # Tesseract OCR engine
+│   │       ├── json_parser.py # JSON flattener
+│   │       ├── pdf.py         # pypdf page-by-page extraction
+│   │       └── python_parser.py # libcst AST-aware code chunking
 │   ├── mcp_server/
 │   │   ├── server.py          # FastMCP server + tool registration
 │   │   └── tools.py           # Tool implementations + sandbox
