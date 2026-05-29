@@ -1,0 +1,23 @@
+# ── MCP Server ──────────────────────────────────────────────────────────────
+mcp==1.9.0                  # Anthropic MCP Python SDK (latest stable)
+
+# ── Data Processing ──────────────────────────────────────────────────────────
+pandas==2.2.2
+numpy==1.26.4
+
+# ── Image / OCR ──────────────────────────────────────────────────────────────
+Pillow==10.3.0
+pytesseract==0.3.10
+
+# ── PDF Parsing (Phase 3 extension) ─────────────────────────────────────────
+pypdf==4.2.0
+
+# ── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv==1.0.1
+watchdog==4.0.1             # File-system event watcher
+xxhash==3.4.1               # Fast non-cryptographic hashing for delta checks
+
+# ── Dev / Testing ────────────────────────────────────────────────────────────
+pytest==8.2.2
+pytest-cov==5.0.0
+pytest-asyncio==0.23.7
