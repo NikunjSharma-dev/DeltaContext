@@ -77,7 +77,7 @@ delta_context/
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/your-handle/delta_context.git
+git clone https://github.com/NikunjSharma-dev/DeltaContext.git
 cd delta_context
 
 python -m venv .venv
