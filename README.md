@@ -78,7 +78,7 @@ delta_context/
 
 ```bash
 git clone https://github.com/NikunjSharma-dev/DeltaContext.git
-cd delta_context
+cd DeltaContext
 
 python -m venv .venv
 source .venv/bin/activate       # Windows: .venv\Scripts\activate
