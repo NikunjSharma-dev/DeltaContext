@@ -74,6 +74,15 @@ delta_context/
 
 ## Quick Start
 
+### GitHub Codespaces
+
+This repository includes a `.devcontainer/devcontainer.json` file, so you can open it directly in GitHub Codespaces and get the same Python + Tesseract environment without any local setup.
+
+1. Open the repository on GitHub.
+2. Click `Code`.
+3. Switch to the `Codespaces` tab and create a new codespace.
+4. Open a terminal and run `pytest` or `python -m src.mcp_server.server`.
+
 ### 1. Clone and install
 
 ```bash
