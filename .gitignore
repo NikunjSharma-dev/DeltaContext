@@ -1,8 +1,27 @@
-src/engine/.DS_Store
-tests/.DS_Store
-src/memory/.DS_Store
-src/mcp_server/.DS_Store
-src/engine/parsers/.DS_Store
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Testing & Coverage
+.coverage
+coverage.xml
+.pytest_cache/
+htmlcov/
+
+# Databases & local data
+*.sqlite
+*.db
+data/inbox/
+data/outbox/
+
+# IDE & System
+.DS_Store
+.vscode/
+.idea/
 src/.DS_Store
-.DS_Store
-.DS_Store
+src/*/.DS_Store
+tests/.DS_Store
